@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Saya - Evotix</title>
+    <link rel="icon" type="image/png" href="../img/icon-tiket-evotix.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/dark-mode.css"> <!-- Link dark mode css -->
+    <style>
+        .navbar {
+            transition: padding 0.3s ease, background-color 0.3s ease;
+        }
+        .navbar-scrolled {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-card {
+            max-width: 600px;
+            margin: 4rem auto;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #A4B1BA;
+            margin-bottom: 1rem;
+        }
+        .profile-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .profile-email {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+        /* Dark mode overrides for this page */
+        body.dark-mode .profile-card {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .navbar-scrolled {
+            background: rgba(28, 28, 28, 0.8) !important;
+        }
+        body.dark-mode .profile-email {
+            color: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar (copy from beranda.html) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="beranda.html"><img src="../img/evotix.png" alt="Evotix" height="40"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarEvotix">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarEvotix">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="beranda.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="list-event.html">Event</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm me-2" style="border-radius: 50%; width: 38px; height: 38px;">🌙</button>
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <img src="../img/login.png" alt="" class="rounded-circle" width="25" height="25">
+                            <span id="navProfileName">Tamu</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="profil-saya.html">Profil Saya</a></li>
+                            <li><a class="dropdown-item" href="pesanan-saya.html">Pesanan Saya</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">Keluar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-card">
+            <img src="../img/login.png" alt="Avatar" class="profile-avatar" id="profilePageAvatar">
+            <h2 class="profile-name" id="profilePageName">Nama Pengguna</h2>
+            <p class="profile-email" id="profilePageEmail">email@pengguna.com</p>
+            <a href="../../index.html" id="logoutBtnPage" class="btn btn-logout rounded-pill px-4">Keluar</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- Navbar Scroll Animation ---
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+
+            // Dark Mode Logic
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            const currentTheme = localStorage.getItem('theme');
+
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.textContent = '☀️';
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                let theme = 'light';
+                if (body.classList.contains('dark-mode')) {
+                    theme = 'dark';
+                    darkModeToggle.textContent = '☀️';
+                } else {
+                    darkModeToggle.textContent = '🌙';
+                }
+                localStorage.setItem('theme', theme);
+            });
+
+            // User Data Logic
+            const userSession = localStorage.getItem('evotixUser');
+            if (!userSession) {
+                window.location.href = '../../index.html'; // Redirect if not logged in
+                return;
+            }
+
+            const user = JSON.parse(userSession);
+
+            // Populate page content
+            document.getElementById('profilePageName').textContent = user.name || 'Pengguna Evotix';
+            document.getElementById('profilePageEmail').textContent = user.email || 'Tidak ada email';
+            if (user.photo) {
+                document.getElementById('profilePageAvatar').src = user.photo;
+            }
+
+            // Populate navbar
+            document.getElementById('navProfileName').textContent = user.name;
+            const navProfileImg = document.querySelector('#profileDropdown img');
+            if (navProfileImg && user.photo) {
+                navProfileImg.src = user.photo;
+            }
+
+            // Logout buttons
+            function handleLogout(e) {
+                e.preventDefault();
+                localStorage.removeItem('evotixUser');
+                localStorage.removeItem('evotixOrders');
+                window.location.href = '../../index.html';
+            }
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('logoutBtnPage').addEventListener('click', handleLogout);
+        });
+    </script>
+</body>
+</html>

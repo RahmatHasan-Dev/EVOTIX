@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesanan Saya - Evotix</title>
+    <link rel="icon" type="image/png" href="../img/icon-tiket-evotix.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .navbar { transition: padding 0.3s ease, background-color 0.3s ease; }
+        .navbar-scrolled {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+        .order-card {
+            display: flex;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .order-card:hover { transform: translateY(-5px); }
+        .order-img { width: 120px; height: 160px; object-fit: cover; }
+        .order-details { padding: 1rem; flex-grow: 1; }
+        .order-title { font-weight: 700; font-size: 1.1rem; }
+        .order-meta { font-size: 0.9rem; color: #6c757d; }
+        .order-actions {
+            border-left: 1px solid #eee;
+        }
+        .btn-action {
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+        }
+        
+        /* Skeleton Loader */
+        .skeleton-card {
+            display: flex;
+            background: #e9ecef;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            height: 160px;
+        }
+        .skeleton-img { width: 120px; height: 160px; background-color: #d1d5db; }
+        .skeleton-details { padding: 1rem; flex-grow: 1; }
+        .skeleton-line { height: 1rem; background-color: #d1d5db; border-radius: 0.25rem; margin-bottom: 0.75rem; }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.long { width: 90%; }
+
+        /* Shimmer Animation */
+        .skeleton-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        /* Dark Mode */
+        body.dark-mode { background-color: #121212; color: #e0e0e0; }
+        body.dark-mode .navbar-scrolled { background: rgba(28, 28, 28, 0.8) !important; }
+        body.dark-mode .order-card { background: #1e1e1e; }
+        body.dark-mode .order-meta { color: #a0a0a0; }
+        body.dark-mode h1 { color: #fff; }
+        body.dark-mode .order-actions {
+            border-left-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="beranda.html"><img src="../img/evotix.png" alt="Evotix" height="40"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarEvotix">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarEvotix">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="beranda.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="list-event.html">Event</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm me-2" style="border-radius: 50%; width: 38px; height: 38px;">🌙</button>
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <img src="../img/login.png" alt="" class="rounded-circle" width="25" height="25">
+                            <span id="navProfileName">Tamu</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profil-saya.html">Profil Saya</a></li>
+                            <li><a class="dropdown-item active" href="pesanan-saya.html">Pesanan Saya</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">Keluar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="text-center mb-5">Riwayat Pesanan Saya</h1>
+        <div class="row justify-content-center">
+            <div class="col-lg-9 mb-4">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari pesanan berdasarkan nama event...">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div id="order-history-container">
+                    <!-- Skeleton Loader -->
+                    <div class="skeleton-card">
+                        <div class="skeleton-img"></div>
+                        <div class="skeleton-details">
+                            <div class="skeleton-line long" style="height: 1.2rem; margin-bottom: 1rem;"></div>
+                            <div class="skeleton-line"></div>
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line"></div>
+                        </div>
+                    </div>
+                    <!-- Real orders will be injected here -->
+                </div>
+                <div id="no-orders" class="text-center text-muted py-5" style="display: none;">
+                    <h4>Anda belum memiliki pesanan.</h4>
+                    <p>Ayo jelajahi event seru dan pesan tiket pertama Anda!</p>
+                    <a href="list-event.html" class="btn btn-primary mt-3 rounded-pill px-4">Cari Event</a>
+                </div>
+            </div>
+            <div class="col-lg-9 mt-4">
+                <nav id="pagination-container"></nav>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- Navbar Scroll Animation ---
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+
+            // --- Dark Mode Logic ---
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'dark') {
+                body.classList.add('dark-mode');
+                darkModeToggle.textContent = '☀️';
+            }
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                let theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+                darkModeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+                localStorage.setItem('theme', theme);
+            });
+
+            // --- User & Order History Logic ---
+            const userSession = localStorage.getItem('evotixUser');
+            if (!userSession) {
+                window.location.href = '../../index.html';
+                return;
+            }
+            const user = JSON.parse(userSession);
+            document.getElementById('navProfileName').textContent = user.name;
+            const navProfileImg = document.querySelector('#profileDropdown img');
+            if (navProfileImg && user.photo) navProfileImg.src = user.photo;
+
+            let allOrders = JSON.parse(localStorage.getItem('evotixOrders')) || [];
+            const container = document.getElementById('order-history-container');
+            const noOrdersEl = document.getElementById('no-orders');
+            const searchInput = document.getElementById('searchInput');
+            const paginationContainer = document.getElementById('pagination-container');
+            const ordersPerPage = 4;
+            let currentPage = 1;
+
+            function displayPage(orders, page) {
+                container.innerHTML = '';
+                page--; // adjust to zero-based index
+
+                const startIndex = ordersPerPage * page;
+                const endIndex = startIndex + ordersPerPage;
+                const paginatedItems = orders.slice(startIndex, endIndex);
+
+                if (paginatedItems.length === 0 && allOrders.length > 0) {
+                    container.innerHTML = `<p class="text-muted text-center">Tidak ada pesanan yang cocok dengan pencarian Anda.</p>`;
+                } else if (allOrders.length === 0) {
+                    noOrdersEl.style.display = 'block';
+                } else {
+                    noOrdersEl.style.display = 'none';
+                }
+
+                paginatedItems.forEach(order => {
+                    const orderCardHTML = `
+                        <div class="order-card" data-title="${order.title.toLowerCase()}">
+                            <img src="../img/${order.image}" class="order-img" alt="${order.title}">
+                            <div class="order-details">
+                                <h5 class="order-title">${order.title}</h5>
+                                <p class="order-meta mb-0">
+                                    <i class="bi bi-calendar-event"></i> ${order.date}<br>
+                                    <i class="bi bi-ticket-perforated"></i> ${order.quantity} Tiket &bull; Kode: ${order.code}<br>
+                                    <i class="bi bi-credit-card"></i> Total: Rp ${parseInt(order.total || 0).toLocaleString('id-ID')}
+                                </p>
+                            </div>
+                            <div class="order-actions p-2 d-flex flex-column justify-content-center gap-2">
+                                <button class="btn btn-sm btn-outline-primary btn-action btn-reprint" data-code="${order.code}" title="Cetak Ulang Tiket">
+                                    <i class="bi bi-printer"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success btn-action btn-download" data-code="${order.code}" title="Download sebagai Gambar">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger btn-action btn-delete" data-code="${order.code}" title="Hapus Pesanan">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += orderCardHTML;
+                });
+            }
+
+            function setupPagination(orders) {
+                paginationContainer.innerHTML = '';
+                const pageCount = Math.ceil(orders.length / ordersPerPage);
+                if (pageCount <= 1) return;
+
+                const ul = document.createElement('ul');
+                ul.className = 'pagination justify-content-center';
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const li = document.createElement('li');
+                    li.className = 'page-item' + (i === currentPage ? ' active' : '');
+                    const a = document.createElement('a');
+                    a.className = 'page-link';
+                    a.href = '#';
+                    a.innerText = i;
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        displayPage(orders, currentPage);
+                        
+                        document.querySelectorAll('.pagination .page-item').forEach(item => item.classList.remove('active'));
+                        li.classList.add('active');
+                    });
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                }
+                paginationContainer.appendChild(ul);
+            }
+
+            function handleSearchAndRender() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredOrders = allOrders.filter(order => order.title.toLowerCase().includes(searchTerm));
+                currentPage = 1;
+                // Simulate loading delay
+                setTimeout(() => {
+                    displayPage(filteredOrders, currentPage);
+                    setupPagination(filteredOrders);
+                }, 500); // 0.5 second delay
+            }
+
+            handleSearchAndRender();
+
+            searchInput.addEventListener('input', function() {
+                container.innerHTML = `
+                    <div class="skeleton-card">
+                        <div class="skeleton-img"></div>
+                        <div class="skeleton-details">
+                            <div class="skeleton-line long" style="height: 1.2rem; margin-bottom: 1rem;"></div>
+                            <div class="skeleton-line"></div>
+                            <div class="skeleton-line short"></div>
+                            <div class="skeleton-line"></div>
+                        </div>
+                    </div>`;
+                handleSearchAndRender();
+            });
+
+            container.addEventListener('click', function(e) {
+                const deleteButton = e.target.closest('.btn-delete');
+                const reprintButton = e.target.closest('.btn-reprint');
+                const downloadButton = e.target.closest('.btn-download');
+
+                if (deleteButton) {
+                    const orderCode = deleteButton.dataset.code;
+                    if (confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+                        allOrders = allOrders.filter(order => order.code !== orderCode);
+                        localStorage.setItem('evotixOrders', JSON.stringify(allOrders));
+                        handleSearchAndRender();
+                    }
+                }
+
+                if (reprintButton) {
+                    const orderCode = reprintButton.dataset.code;
+                    reprintTicket(orderCode);
+                }
+
+                if (downloadButton) {
+                    const orderCard = downloadButton.closest('.order-card');
+                    const orderCode = downloadButton.dataset.code;
+                    // Tingkatkan 'scale' untuk gambar berkualitas lebih tinggi
+                    html2canvas(orderCard, { 
+                        useCORS: true,
+                        scale: 3 
+                    }).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = `pesanan-${orderCode}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                    });
+                }
+            });
+
+            function reprintTicket(orderCode) {
+                const orderToReprint = allOrders.find(order => order.code === orderCode);
+                if (orderToReprint) {
+                    const selectedEventData = {
+                        title: orderToReprint.title,
+                        date: orderToReprint.date,
+                        location: orderToReprint.location,
+                        image: orderToReprint.image,
+                        time: "N/A"
+                    };
+                    const buyerData = {
+                        name: user.name || "Pemegang Tiket",
+                        ticketCount: orderToReprint.quantity,
+                        ticketCode: orderToReprint.code
+                    };
+
+                    localStorage.setItem("selectedEvent", JSON.stringify(selectedEventData));
+                    localStorage.setItem("buyerData", JSON.stringify(buyerData));
+                    
+                    window.open('tiket.html', '_blank');
+                } else {
+                    alert("Gagal menemukan data pesanan untuk dicetak ulang.");
+                }
+            }
+
+            // --- Logout Logic ---
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('evotixUser');
+                localStorage.removeItem('evotixOrders'); // Clear order history on logout
+                window.location.href = '../../index.html';
+            });
+        });
+    </script>
+</body>
+</html>

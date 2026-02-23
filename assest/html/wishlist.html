@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist Saya - Evotix</title>
+    <link rel="icon" type="image/png" href="../img/icon-tiket-evotix.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .btn-remove-wishlist {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc3545;
+            border: none;
+        }
+        body.dark-mode { background-color: #121212; }
+        body.dark-mode .card { background-color: #1e1e1e; color: #e0e0e0; }
+        body.dark-mode .form-select { background-color: #2c2c2e; color: #e0e0e0; border-color: #444; }
+        body.dark-mode h1 { color: #fff; }
+        .toast-container { z-index: 1100; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="beranda.html"><img src="../img/evotix.png" alt="Evotix" height="40"></a>
+            <div class="d-flex align-items-center">
+                <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm me-2" style="border-radius: 50%; width: 38px; height: 38px;">🌙</button>
+                <div class="dropdown">
+                    <a class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown">
+                        <img src="../img/login.png" alt="" class="rounded-circle" width="25" height="25">
+                        <span id="navProfileName">Tamu</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profil-saya.html">Profil Saya</a></li>
+                        <li><a class="dropdown-item" href="pesanan-saya.html">Pesanan Saya</a></li>
+                        <li><a class="dropdown-item active" href="wishlist.html">Wishlist</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">Keluar</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+            <h1 class="text-center mb-0">Wishlist Event Saya</h1>
+            <div class="d-flex align-items-center gap-2">
+                <label for="sortWishlist" class="form-label mb-0">Urutkan:</label>
+                <select class="form-select form-select-sm" id="sortWishlist" style="width: auto;">
+                    <option value="latest" selected>Terbaru Ditambahkan</option>
+                    <option value="oldest">Terlama Ditambahkan</option>
+                    <option value="price-asc">Harga (Termurah)</option>
+                    <option value="price-desc">Harga (Termahal)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="wishlist-container" class="row g-4">
+            <!-- Wishlist items will be injected here -->
+        </div>
+        <div id="no-wishlist" class="text-center text-muted py-5" style="display: none;">
+            <h4>Wishlist Anda masih kosong.</h4>
+            <p>Tambahkan event favorit Anda dengan menekan ikon hati pada kartu event.</p>
+            <a href="list-event.html" class="btn btn-primary mt-3 rounded-pill px-4">Cari Event Sekarang</a>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showToast(message, type = 'success') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toastId = 'toast-' + Date.now();
+            const toastColor = type === 'success' ? 'bg-success' : 'bg-danger';
+
+            const toastHTML = `
+                <div id="${toastId}" class="toast align-items-center text-white ${toastColor} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+            toast.show();
+            toastElement.addEventListener('hidden.bs.toast', () => toastElement.remove());
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Dark Mode, User, dan Logout Logic (sama seperti halaman lain)
+            // ... (diasumsikan sudah ada)
+
+            renderWishlist();
+
+            document.getElementById('sortWishlist').addEventListener('change', function() {
+                renderWishlist(this.value);
+            });
+        });
+
+        function renderWishlist(sortBy = 'latest') {
+            let wishlist = JSON.parse(localStorage.getItem('evotixWishlist')) || [];
+            const container = document.getElementById('wishlist-container');
+            const noWishlistEl = document.getElementById('no-wishlist');
+            container.innerHTML = '';
+
+            // Sorting logic
+            if (sortBy === 'price-asc') wishlist.sort((a, b) => a.price - b.price);
+            else if (sortBy === 'price-desc') wishlist.sort((a, b) => b.price - a.price);
+            else if (sortBy === 'oldest') wishlist.sort((a, b) => new Date(a.date) - new Date(b.date));
+            else wishlist.sort((a, b) => new Date(b.date) - new Date(a.date)); // Default to latest
+
+            if (wishlist.length === 0) {
+                noWishlistEl.style.display = 'block';
+            } else {
+                noWishlistEl.style.display = 'none';
+                wishlist.forEach(event => {
+                    const cardHTML = `
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="card event-card h-100 position-relative">
+                                <img src="../img/${event.image}" class="card-img-top" alt="${event.title}" style="height: 180px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title fw-bold">${event.title}</h6>
+                                    <p class="card-text small text-muted mt-auto">Mulai dari Rp ${event.price.toLocaleString('id-ID')}</p>
+                                    <a href="${event.href}" class="btn btn-sm btn-dark w-100">Lihat Detail</a>
+                                </div>
+                                <button class="btn-remove-wishlist" onclick="removeFromWishlist('${event.id}')" title="Hapus dari Wishlist"><i class="bi bi-trash-fill"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                });
+            }
+        }
+
+        function removeFromWishlist(eventId) {
+            let wishlist = JSON.parse(localStorage.getItem('evotixWishlist')) || [];
+            const eventToRemove = wishlist.find(item => item.id === eventId);
+            if (!eventToRemove) return;
+
+            wishlist = wishlist.filter(item => item.id !== eventId);
+            localStorage.setItem('evotixWishlist', JSON.stringify(wishlist));
+            showToast(`"${eventToRemove.title}" telah dihapus dari wishlist.`, 'danger');
+            renderWishlist(document.getElementById('sortWishlist').value); // Re-render with current sort
+        }
+    </script>
+</body>
+</html>

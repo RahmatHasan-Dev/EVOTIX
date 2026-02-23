@@ -1,0 +1,102 @@
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+    background: rgba(28, 28, 28, 0.75) !important;
+    backdrop-filter: blur(15px);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .navbar-nav .nav-link {
+    color: #c5c5c5 !important;
+}
+
+body.dark-mode .navbar-nav .nav-link:hover,
+body.dark-mode .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+}
+
+body.dark-mode .navbar-nav .nav-link:hover::after {
+    background-color: #ffffff;
+}
+
+body.dark-mode .btn-outline-dark {
+    color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+body.dark-mode .btn-outline-dark:hover {
+    background-color: #e0e0e0;
+    color: #121212;
+}
+
+body.dark-mode .btn-outline-secondary {
+    color: #c5c5c5;
+    border-color: #555;
+}
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+body.dark-mode .floating-glass {
+    background: rgba(28, 28, 28, 0.7);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .nav-pills .nav-link {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+body.dark-mode .nav-pills .nav-link.active {
+    background-color: #A4B1BA;
+    color: #121212;
+}
+
+body.dark-mode .floating-search input,
+body.dark-mode .floating-search select {
+    background-color: rgba(40, 40, 40, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+body.dark-mode h2, body.dark-mode h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .text-muted {
+    color: #a0a0a0 !important;
+}
+
+body.dark-mode .card-event,
+body.dark-mode .card-custom,
+body.dark-mode #laris-manis .card {
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .card-title,
+body.dark-mode h6,
+body.dark-mode .text-dark {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .bg-light {
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode .bg-image-wrapper {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+body.dark-mode .evotix-footer {
+    background: #1e1e1e;
+}
+
+body.dark-mode .footer-cta {
+    border-bottom-color: #333;
+}

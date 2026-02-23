@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Tim - Evotix</title>
+    <link rel="icon" type="image/png" href="../img/icon-tiket-evotix.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css">
+    <style>
+        body {
+            background-color: #f1f2f6;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: -90px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .profile-role {
+            font-size: 1.1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .profile-body {
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .profile-bio {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .socials a {
+            color: #555;
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .socials a:hover {
+            color: #fc5c7d;
+            transform: scale(1.2);
+        }
+
+        .btn-back {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <!-- Konten header akan diisi oleh JS -->
+        </div>
+        <div class="text-center">
+            <img src="" alt="Avatar" class="profile-avatar" id="memberAvatar">
+        </div>
+        <div class="profile-body">
+            <h1 class="profile-name" id="memberName">Nama Anggota</h1>
+            <p class="profile-role" id="memberRole">Jabatan</p>
+            <p class="profile-bio" id="memberBio">Bio singkat akan muncul di sini.</p>
+            <div class="socials" id="memberSocials">
+                <!-- Ikon sosial media akan diisi oleh JS -->
+            </div>
+            <a href="tentang-kami.html" class="btn btn-outline-secondary rounded-pill px-4 btn-back">Kembali ke Tim</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const teamData = {
+                hasan: {
+                    name: "M. Hasan",
+                    role: "Network Engineer",
+                    image: "../img/hasan.jpg",
+                    bio: "Hasan adalah seorang insinyur jaringan yang berdedikasi dengan keahlian dalam merancang dan mengelola infrastruktur jaringan yang andal. Dia memastikan konektivitas dan keamanan sistem Evotix berjalan optimal.",
+                    socials: {
+                        twitter: "https://x.com/RahmatNurSan02?t=L975tmh8uLbvWIsYXURcmA&s=09",
+                        instagram: "https://www.instagram.com/ronhasan42"
+                    }
+                },
+                sabrina: {
+                    name: "Mahadewi Sabrina Putri",
+                    role: "Data Analyst",
+                    image: "../img/sasa.jpeg",
+                    bio: "Sabrina adalah seorang analis data yang teliti dan berorientasi pada detail. Ia memiliki kemampuan untuk menerjemahkan data mentah menjadi wawasan bisnis yang berharga, membantu tim membuat keputusan strategis.",
+                    socials: {
+                        twitter: "https://x.com/gapunyabiassss?t=Xg7fXGkExWAZoPBdH10ZOw&s=09",
+                        instagram: "https://www.instagram.com/sabreenadeu"
+                    }
+                },
+                labib: {
+                    name: "Revardi Mulaya Labib",
+                    role: "Web Designer",
+                    image: "../img/labib.jpeg",
+                    bio: "Labib adalah seorang desainer web kreatif dengan hasrat untuk menciptakan antarmuka yang indah dan fungsional. Dengan pengalaman bertahun-tahun, ia ahli dalam mengubah ide kompleks menjadi desain yang intuitif dan menarik.",
+                    socials: {
+                        twitter: "https://x.com/maulsyar77?s=11",
+                        instagram: "https://www.instagram.com/onlyrevv._"
+                    }
+                },
+                viola: {
+                    name: "Bernita Viola Larrisa",
+                    role: "Machine Learning Engineer",
+                    image: "../img/viola.jpeg",
+                    bio: "Viola adalah insinyur Machine Learning yang inovatif. Dia bertanggung jawab untuk mengembangkan model prediktif dan sistem rekomendasi yang membuat pengalaman pengguna di Evotix menjadi lebih personal dan cerdas.",
+                    socials: {
+                        twitter: "https://x.com/scbvla?s=21",
+                        instagram: "https://www.instagram.com/vlaarissaa_"
+                    }
+                },
+                intan: {
+                    name: "Aufrida Intan A.P",
+                    role: "UI/UX Designer",
+                    image: "../img/intan.jpeg",
+                    bio: "Intan adalah seorang desainer UI/UX yang fokus pada pengalaman pengguna. Dia memastikan setiap alur dan interaksi di platform Evotix terasa mudah, menyenangkan, dan dapat diakses oleh semua kalangan.",
+                    socials: {
+                        twitter: "https://x.com/skizlvstay?s=21",
+                        instagram: "https://www.instagram.com/aufridaintann"
+                    }
+                }
+            };
+
+            const params = new URLSearchParams(window.location.search);
+            const memberKey = params.get('member');
+            const member = teamData[memberKey];
+
+            if (member) {
+                document.title = `${member.name} - Tim Evotix`;
+                document.getElementById('memberAvatar').src = member.image;
+                document.getElementById('memberAvatar').alt = member.name;
+                document.getElementById('memberName').textContent = member.name;
+                document.getElementById('memberRole').textContent = member.role;
+                document.getElementById('memberBio').textContent = member.bio;
+
+                const socialContainer = document.getElementById('memberSocials');
+                socialContainer.innerHTML = `
+                    <a href="${member.socials.twitter}" target="_blank"><i class="zmdi zmdi-twitter"></i></a>
+                    <a href="${member.socials.instagram}" target="_blank"><i class="zmdi zmdi-instagram"></i></a>
+                `;
+            } else {
+                document.getElementById('memberName').textContent = "Anggota Tidak Ditemukan";
+                document.getElementById('memberBio').textContent = "Maaf, data untuk anggota tim ini tidak tersedia.";
+            }
+        });
+    </script>
+</body>
+
+</html>

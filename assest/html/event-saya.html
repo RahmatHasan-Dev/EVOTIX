@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Saya - Evotix</title>
+    <link rel="icon" type="image/png" href="../img/icon-tiket-evotix.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <style>
+        body {
+            background-color: #f4f7f6;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-responsive {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="beranda.html">
+                <img src="../img/evotix.png" alt="Evotix" height="40">
+            </a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" href="#"
+                        id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                        <img src="../img/login.png" alt="Organizer" class="rounded-circle" width="25" height="25">
+                        <span>Event Organizer</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profil-saya.html">Profil</a></li>
+                        <li><a class="dropdown-item text-danger" href="../../index.html">Keluar</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2 fw-bold">Dashboard Event Saya</h1>
+            <a href="#" class="btn btn-dark rounded-pill px-4">
+                <i class="bi bi-plus-circle me-2"></i>Buat Event Baru
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <h6 class="text-muted">Total Event Aktif</h6>
+                    <h3 class="fw-bold">5</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <h6 class="text-muted">Tiket Terjual (Bulan Ini)</h6>
+                    <h3 class="fw-bold">1,250</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <h6 class="text-muted">Total Pendapatan</h6>
+                    <h3 class="fw-bold">Rp 62.500.000</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Event -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nama Event</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Tiket Terjual</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>IMX 2025 Bigbang</strong></td>
+                        <td>10 Okt 2025</td>
+                        <td><span class="badge bg-success">Aktif</span></td>
+                        <td>850 / 2000</td>
+                        <td>
+                            <button class="btn btn-outline-primary btn-sm btn-action" title="Edit"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger btn-sm btn-action" title="Hapus"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>ARTJOG 2025</strong></td>
+                        <td>20 Jun 2025</td>
+                        <td><span class="badge bg-success">Aktif</span></td>
+                        <td>400 / 1500</td>
+                        <td>
+                            <button class="btn btn-outline-primary btn-sm btn-action" title="Edit"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger btn-sm btn-action" title="Hapus"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>HI5TORIA ULTRAS GARUDA</strong></td>
+                        <td>05 Jul 2025</td>
+                        <td><span class="badge bg-secondary">Selesai</span></td>
+                        <td>500 / 500</td>
+                        <td>
+                            <button class="btn btn-outline-primary btn-sm btn-action" title="Edit" disabled><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger btn-sm btn-action" title="Hapus"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class=" w-full">
+        <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 390" xmlns="http://www.w3.org/2000/svg"
+            class="transition duration-300 ease-in-out delay-150">
+            <defs>
+                <linearGradient id="gradient" x1="50%" y1="100%" x2="50%" y2="0%">
+                    <stop offset="5%" stop-color="#575757"></stop>
+                    <stop offset="95%" stop-color="#575757"></stop>
+                </linearGradient>
+            </defs>
+            <path
+                d="M 0,400 L 0,300 C 72.05741626794256,303.4736842105263 144.1148325358851,306.9473684210526 245,313 C 345.8851674641149,319.0526315789474 475.598086124402,327.6842105263157 570,329 C 664.401913875598,330.3157894736843 723.4928229665071,324.3157894736843 823,318 C 922.5071770334929,311.6842105263157 1062.4306220095696,305.05263157894734 1172,302 C 1281.5693779904304,298.94736842105266 1360.7846889952152,299.47368421052636 1440,300 L 1440,400 L 0,400 Z"
+                stroke="none" stroke-width="0" fill="url(#gradient)" fill-opacity="1"
+                class="transition-all duration-300 ease-in-out delay-150 path-3"></path>
+        </svg>
+    </div>
+    <footer class="evotix-footer" id="bantuan">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-about">
+                        <img src="../img/evotix.png" alt="LOGO EVOTIX" style="height: 100px; margin-bottom: 30px;">
+                        <h3 class="logo">Evotix</h3>
+                        <p class="desc">Platform untuk event organizer mengelola acara dan penjualan tiket secara efisien.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Navigasi</h4>
+                        <ul>
+                            <li><a href="beranda.html">Beranda</a></li>
+                            <li><a href="tentang-kami.html">Tentang Kami</a></li>
+                            <li><a href="pusat-bantuan.html">Pusat Bantuan</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-newsletter">
+                        <h4>Newsletter</h4>
+                        <p>Dapatkan update terbaru dari Evotix!</p>
+                        <form>
+                            <input type="email" placeholder="Email Anda..." required>
+                            <button type="submit">Langganan</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer-team">
+                    <h4>Tim Developer Evotix</h4>
+                    <div class="team-list">
+                        <div class="team-member">
+                            <img src="../img/hasan.jpg" alt="Hasan">
+                            <p>Hasan</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="../img/hasan.jpg" alt="Hasan">
+                            <p>Hasan</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="../img/hasan.jpg" alt="Hasan">
+                            <p>Hasan</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="../img/hasan.jpg" alt="Hasan">
+                            <p>Hasan</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="../img/hasan.jpg" alt="Hasan">
+                            <p>Hasan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Evotix. Semua hak cipta dilindungi.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
